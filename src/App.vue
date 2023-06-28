@@ -1,12 +1,16 @@
+<script setup lang="ts">
+import FishTank from "@/components/FishTank.vue";
+</script>
+
 <template>
 <main>
-  <h1>Vuequarium</h1>
+  <FishTank />
+
 
 </main>
 </template>
 
-<script setup lang="ts">
-</script>
+
 
 <style scoped>
 </style>
