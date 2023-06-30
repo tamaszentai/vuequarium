@@ -46,6 +46,9 @@ const fishType = computed(() => {
     case 'puffer':
       image =  'pufferfish.png';
       break;
+    case 'sword':
+      image =  'swordfish.png';
+      break;
   }
   return image;
 })

@@ -23,7 +23,8 @@ const addFish = () => {
   fishTankFish.value.push({name: 'Joe', type: 'golden', startX: 600, startY: 50},
       {name: 'Bob', type: 'blue', startX: 100, startY: 500},
       {name: 'Dessia', type: 'ray', startX: 200, startY: 100},
-      {name: 'Wayne', type: 'puffer', startX: 300, startY: 200}
+      {name: 'Wayne', type: 'puffer', startX: 300, startY: 200},
+      {name: 'Alice', type: 'sword', startX: 400, startY: 300},
   )
 }
 
@@ -31,6 +32,7 @@ const addFish = () => {
 
 <style scoped>
 .fish-tank {
+  display: inline-block;
   width: 1024px;
   height: 680px;
   background-image: url("../assets/fish-tank.png");
