@@ -4,7 +4,7 @@
     <div class="fish-list">
       <ul>
         <li v-for="fish in fishList" :key="fish.type" @click="selectFish(fish.type)" :class="fish.isSelected ? 'selected' : ''">
-          <img :src="fish.image" :alt="fish.type" />
+          <img :src="fish.isSelected ? fish.selectedImage :fish.image" :alt="fish.type" />
         </li>
       </ul>
     </div>
@@ -17,18 +17,26 @@
 
 <script setup lang="ts">
 import golden from "@/assets/goldfish.png";
+import goldenSelected from "@/assets/goldfish-glow.png";
 import blue from "@/assets/bluefish.png";
+import blueSelected from "@/assets/bluefish-glow.png";
 import ray from "@/assets/mantaray.png";
+import raySelected from "@/assets/mantaray-glow.png";
 import puffer from "@/assets/pufferfish.png";
+import pufferSelected from "@/assets/pufferfish-glow.png";
 import sword from "@/assets/swordfish.png";
+import swordSelected from "@/assets/swordfish-glow.png";
 import {ref} from "vue";
 
+
+const emit = defineEmits(['addFish']);
+
 const fishList = ref([
-  {type: 'golden', image: golden, isSelected: false},
-  {type: 'blue', image: blue, isSelected: false},
-  {type: 'ray', image: ray, isSelected: false},
-  {type: 'puffer', image: puffer, isSelected: false},
-  {type: 'sword', image: sword, isSelected: false},
+  {type: 'golden', image: golden, selectedImage: goldenSelected, isSelected: false},
+  {type: 'blue', image: blue, selectedImage: blueSelected, isSelected: false},
+  {type: 'ray', image: ray, selectedImage: raySelected, isSelected: false},
+  {type: 'puffer', image: puffer, selectedImage: pufferSelected, isSelected: false},
+  {type: 'sword', image: sword, selectedImage: swordSelected, isSelected: false},
 ]);
 
 const fishName = ref('');
@@ -39,14 +47,34 @@ const selectFish = (type: string) => {
   });
 }
 
+const randomX = () => {
+  return Math.floor(Math.random() * 800);
+}
+
+const randomY = () => {
+  return Math.floor(Math.random() * 400);
+}
+
 const addFish = () => {
   const selectedFish = fishList.value.find(fish => fish.isSelected);
+  if (!selectedFish || !fishName.value) {
+    return;
+  }
   const payload = {
     type: selectedFish.type,
     name: fishName.value,
+    startX: randomX(),
+    startY: randomY(),
   }
 
+  fishList.value.forEach(fish => {
+    fish.isSelected = false;
+  });
+
+  fishName.value = '';
+
   console.log(payload);
+  emit('addFish', payload);
 }
 
 </script>
@@ -79,16 +107,13 @@ const addFish = () => {
  li {
    display: inline-block;
     padding: 1rem;
+   margin: 5px;
  }
 
  li:hover {
    cursor: pointer;
-   border: 1px solid black;
  }
 
- .selected {
-   border: 1px solid black;
- }
 
  img {
    width: 100px;

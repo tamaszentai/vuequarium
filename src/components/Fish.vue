@@ -1,8 +1,15 @@
 <template>
   <div class="fish" :style="fishCoordinates">
-    <div class="name">{{props.name}}</div>
-    <img :src="`/src/assets/${fishType}`" :alt="`${fishType}`" :style="flipFish" />
-    <div class="hunger-bar"></div>
+    <div class="data-container">
+      <div class="notification">FEED ME!</div>
+      <div class="name">{{ props.name }}</div>
+    </div>
+    <div class="wrapper" :style="startDirection">
+    <img :src="`/src/assets/${fishType}`" :alt="`${fishType}`" :style="flipFish"/>
+    </div>
+    <div class="stomach">
+      <div class="hunger-bar" :style="hungriness"></div>
+    </div>
   </div>
 </template>
 
@@ -11,10 +18,10 @@ import {computed, ref} from "vue";
 
 const y = ref(props.startY);
 const x = ref(props.startX);
-const modifiedY = ref(1)
-const modifiedX = ref(1)
 const isY = ref(true);
 const isX = ref(true);
+const directionName = ref('');
+const stomach = ref(100);
 
 const props = defineProps<{
   name: string
@@ -29,11 +36,21 @@ const generateRandomNumber = () => {
   return numbers[randomIndex];
 }
 
+const leftOrRightFloat = () => {
+  const direction = ['left', 'right'];
+  const random = Math.floor(Math.random() * 2);
+  directionName.value = direction[random];
+  return direction[random];
+}
+
+console.log(leftOrRightFloat());
+console.log(directionName.value);
+
 let randomSpeed = generateRandomNumber();
 
 const fishType = computed(() => {
   let image = '';
-  switch(props.type) {
+  switch (props.type) {
     case 'golden':
       image = 'goldfish.png';
       break;
@@ -44,10 +61,10 @@ const fishType = computed(() => {
       image = 'mantaray.png';
       break;
     case 'puffer':
-      image =  'pufferfish.png';
+      image = 'pufferfish.png';
       break;
     case 'sword':
-      image =  'swordfish.png';
+      image = 'swordfish.png';
       break;
   }
   return image;
@@ -55,41 +72,37 @@ const fishType = computed(() => {
 
 const swim = () => {
 
-  if (y.value >= 500) {
-    isY.value = false
-    randomSpeed = generateRandomNumber();
-    console.log(randomSpeed);
+  if (directionName.value === 'right') {
+    if (y.value >= 430 || y.value <= 0) {
+      isY.value = !isY.value;
+      randomSpeed = generateRandomNumber();
+    }
+
+    y.value += isY.value ? 1 : -1;
+
+    if (x.value >= 850 || x.value <= 0) {
+      isX.value = !isX.value;
+      randomSpeed = generateRandomNumber();
+    }
+
+    x.value += isX.value ? 1 : -1;
   }
 
-  if (y.value <= 0) {
-    isY.value = true;
-    randomSpeed = generateRandomNumber();
-  }
 
-  if (isY.value) {
-    y.value += 1;
-  }
+  if (directionName.value === 'left') {
+    if (y.value >= 430 || y.value <= 0) {
+      isY.value = !isY.value;
+      randomSpeed = generateRandomNumber();
+    }
 
-  if (!isY.value) {
-    y.value -= 1;
-  }
+    y.value -= isY.value ? 1 : -1;
 
-  if (x.value >= 850) {
-    isX.value = false
-    randomSpeed = generateRandomNumber();
-  }
+    if (x.value >= 850 || x.value <= 0) {
+      isX.value = !isX.value;
+      randomSpeed = generateRandomNumber();
+    }
 
-  if (x.value <= 0) {
-    isX.value = true;
-    randomSpeed = generateRandomNumber();
-  }
-
-  if (isX.value) {
-    x.value += 1;
-  }
-
-  if (!isX.value) {
-    x.value -= 1;
+    x.value -= isX.value ? 1 : -1;
   }
 }
 
@@ -105,7 +118,27 @@ const flipFish = computed(() => {
   }
 })
 
+const startDirection = computed(() => {
+  return {
+    transform: `${directionName.value === 'right' ? "" : "scaleX(-1)" }`
+  }
+})
+
+const hungriness = computed(() => {
+  return {
+    width: `${stomach.value}%`, backgroundColor: `${stomach.value > 50 ? 'green' : stomach.value > 20 ? 'orange' : 'red'}`
+  }
+})
+
+const hunger = () => {
+  // if (stomach.value === 0) {
+  //   return
+  // }
+    stomach.value -= 1;
+}
+
 setInterval(swim, randomSpeed);
+setInterval(hunger, 300);
 
 </script>
 
@@ -113,25 +146,61 @@ setInterval(swim, randomSpeed);
 .fish {
   width: 150px;
   position: absolute;
-  //border: 3px solid black;
+}
+
+.data-container {
+  height: 4rem;
+  position: relative;
+
+}
+
+@keyframes changeFontSize {
+  0% {
+    font-size: 1.5rem;
+    color: salmon;
+  }
+  50% {
+    font-size: 2rem;
+    color: red;
+  }
+  100% {
+    font-size: 1.5rem;
+    color: salmon;
+  }
+}
+
+.notification {
+  text-align: center;
+  animation-name: changeFontSize;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
 
 .name {
-  background-color: rgba(219,203,187, 0.8);
+  background-color: rgba(219, 203, 187, 0.8);
   text-align: center;
   font-size: 1.5rem;
-  border-radius: 50px;
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .fish img {
   width: 100%;
 }
 
-.fish .hunger-bar {
+.stomach {
   margin-left: 10%;
   width: 80%;
   height: 10px;
-  background-color: salmon;
+  background-color: white;
+  border-radius: 50px;
+}
+
+.hunger-bar {
+  height: 100%;
   border-radius: 50px;
 }
 </style>
