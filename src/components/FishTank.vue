@@ -1,7 +1,7 @@
 <template>
   <div class="fish-tank" ref="fishTank">
     <Fish v-for="fish in props.fishTankFish" :key="fish.name" :name="fish.name" :type="fish.type" :start-x="fish.startX"
-          :start-y="fish.startY" />
+          :start-y="fish.startY" @remove-fish="removeFish"/>
   </div>
 </template>
 
@@ -15,10 +15,14 @@ const props = defineProps({
     required: true,
   }
 });
-const emit = defineEmits(['addFish']);
+const emit = defineEmits(['addFish', 'removeFish']);
 
 const addFish = () => {
   emit('addFish');
+}
+
+const removeFish = (payload) => {
+  emit('removeFish', payload);
 }
 
 </script>

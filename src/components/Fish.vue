@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, ref, defineEmits} from "vue";
 
 const y = ref(props.startY);
 const x = ref(props.startX);
@@ -31,6 +31,8 @@ const props = defineProps<{
   startX: number
   startY: number
 }>();
+
+const emit = defineEmits(['remove-fish']);
 
 onMounted(() => {
   leftOrRightFloat();
@@ -112,6 +114,9 @@ const swim = () => {
     y.value += 1;
     if (y.value >= 540) {
       y.value = 540;
+      setTimeout(() => {
+      emit('remove-fish', props.name);
+      }, 10000)
     }
   }
 }
@@ -146,13 +151,12 @@ const notification = computed(() => {
 })
 
 const hunger = () => {
-  if (stomach.value === 0) {
-    setTimeout(() => {
-      isDead.value = true;
-    }, 5000)
+  if (stomach.value === -50) {
+    isDead.value = true;
     return
   }
   stomach.value -= 1;
+  console.log(stomach.value)
 }
 
 const feedFish = () => {
@@ -160,7 +164,7 @@ const feedFish = () => {
 }
 
 setInterval(swim, randomSpeed);
-setInterval(hunger, 50); // 200
+setInterval(hunger, 200); // 200
 
 </script>
 

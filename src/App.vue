@@ -1,7 +1,7 @@
 <template>
   <header>VUEquarium</header>
 <main>
-  <FishTank :fish-tank-fish="fishTankFish"/>
+  <FishTank :fish-tank-fish="fishTankFish" @remove-fish="removeFish"/>
   <FishSelector @add-fish="addFish"/>
 </main>
 </template>
@@ -29,7 +29,11 @@ const addFish = (payload) => {
   // );
 
   fishTankFish.value.push(payload);
+}
 
+const removeFish = (name: string) => {
+  const index = fishTankFish.value.findIndex(fish => fish.name === name);
+  fishTankFish.value.splice(index, 1);
 }
 </script>
 
