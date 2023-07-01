@@ -1,20 +1,21 @@
 <template>
   <div class="fish" :style="fishCoordinates">
     <div class="data-container">
-      <div class="notification">FEED ME!</div>
+      <div v-if="notification" class="notification">FEED ME!</div>
       <div class="name">{{ props.name }}</div>
     </div>
-    <div class="wrapper" :style="startDirection">
-    <img :src="`/src/assets/${fishType}`" :alt="`${fishType}`" :style="flipFish"/>
+    <div class="wrapper" :style="startDirection" @click="feedFish">
+      <img :src="isDead ? '/src/assets/fishskeleton.png': `/src/assets/${fishType}`" :alt="`${fishType}`"
+           :style="flipFish">
     </div>
-    <div class="stomach">
+    <div v-if="!isDead" class="stomach">
       <div class="hunger-bar" :style="hungriness"></div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 
 const y = ref(props.startY);
 const x = ref(props.startX);
@@ -22,6 +23,7 @@ const isY = ref(true);
 const isX = ref(true);
 const directionName = ref('');
 const stomach = ref(100);
+const isDead = ref(false);
 
 const props = defineProps<{
   name: string
@@ -29,6 +31,10 @@ const props = defineProps<{
   startX: number
   startY: number
 }>();
+
+onMounted(() => {
+  leftOrRightFloat();
+});
 
 const generateRandomNumber = () => {
   const numbers = [35, 45, 55, 65];
@@ -42,9 +48,6 @@ const leftOrRightFloat = () => {
   directionName.value = direction[random];
   return direction[random];
 }
-
-console.log(leftOrRightFloat());
-console.log(directionName.value);
 
 let randomSpeed = generateRandomNumber();
 
@@ -71,38 +74,45 @@ const fishType = computed(() => {
 })
 
 const swim = () => {
+  if (!isDead.value) {
+    if (directionName.value === 'right') {
+      if (y.value >= 430 || y.value <= 0) {
+        isY.value = !isY.value;
+        randomSpeed = generateRandomNumber();
+      }
 
-  if (directionName.value === 'right') {
-    if (y.value >= 430 || y.value <= 0) {
-      isY.value = !isY.value;
-      randomSpeed = generateRandomNumber();
+      y.value += isY.value ? 1 : -1;
+
+      if (x.value >= 850 || x.value <= 0) {
+        isX.value = !isX.value;
+        randomSpeed = generateRandomNumber();
+      }
+
+      x.value += isX.value ? 1 : -1;
     }
 
-    y.value += isY.value ? 1 : -1;
 
-    if (x.value >= 850 || x.value <= 0) {
-      isX.value = !isX.value;
-      randomSpeed = generateRandomNumber();
+    if (directionName.value === 'left') {
+      if (y.value >= 430 || y.value <= 0) {
+        isY.value = !isY.value;
+        randomSpeed = generateRandomNumber();
+      }
+
+      y.value -= isY.value ? 1 : -1;
+
+      if (x.value >= 850 || x.value <= 0) {
+        isX.value = !isX.value;
+        randomSpeed = generateRandomNumber();
+      }
+      x.value -= isX.value ? 1 : -1;
     }
-
-    x.value += isX.value ? 1 : -1;
   }
 
-
-  if (directionName.value === 'left') {
-    if (y.value >= 430 || y.value <= 0) {
-      isY.value = !isY.value;
-      randomSpeed = generateRandomNumber();
+  if (isDead.value) {
+    y.value += 1;
+    if (y.value >= 540) {
+      y.value = 540;
     }
-
-    y.value -= isY.value ? 1 : -1;
-
-    if (x.value >= 850 || x.value <= 0) {
-      isX.value = !isX.value;
-      randomSpeed = generateRandomNumber();
-    }
-
-    x.value -= isX.value ? 1 : -1;
   }
 }
 
@@ -120,25 +130,37 @@ const flipFish = computed(() => {
 
 const startDirection = computed(() => {
   return {
-    transform: `${directionName.value === 'right' ? "" : "scaleX(-1)" }`
+    transform: `${directionName.value === 'right' ? "" : "scaleX(-1)"}`
   }
 })
 
 const hungriness = computed(() => {
   return {
-    width: `${stomach.value}%`, backgroundColor: `${stomach.value > 50 ? 'green' : stomach.value > 20 ? 'orange' : 'red'}`
+    width: `${stomach.value}%`,
+    backgroundColor: `${stomach.value > 50 ? 'green' : stomach.value > 20 ? 'orange' : 'red'}`
   }
 })
 
+const notification = computed(() => {
+  return stomach.value <= 20 && isDead.value === false
+})
+
 const hunger = () => {
-  // if (stomach.value === 0) {
-  //   return
-  // }
-    stomach.value -= 1;
+  if (stomach.value === 0) {
+    setTimeout(() => {
+      isDead.value = true;
+    }, 5000)
+    return
+  }
+  stomach.value -= 1;
+}
+
+const feedFish = () => {
+  stomach.value = 100;
 }
 
 setInterval(swim, randomSpeed);
-setInterval(hunger, 300);
+setInterval(hunger, 50); // 200
 
 </script>
 
@@ -189,6 +211,10 @@ setInterval(hunger, 300);
 
 .fish img {
   width: 100%;
+}
+
+.fish img:hover {
+  cursor: pointer;
 }
 
 .stomach {
