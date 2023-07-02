@@ -7,11 +7,18 @@
 
 <script setup lang="ts">
 import Fish from "@/components/Fish.vue";
-import {defineEmits} from "vue";
+
+interface FishData {
+  name: string,
+  type: string,
+  startX: number,
+  startY: number,
+  id: string,
+}
 
 const props = defineProps({
   fishTankFish: {
-    type: Array,
+    type: Array as () => FishData[],
     required: true,
   }
 });
@@ -21,8 +28,9 @@ const addFish = () => {
   emit('addFish');
 }
 
-const removeFish = (payload) => {
-  emit('removeFish', payload);
+const removeFish = (id: string) => {
+
+  emit('removeFish', id);
 }
 
 </script>

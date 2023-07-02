@@ -21,7 +21,7 @@ interface FishData {
 
 const fishTankFish = ref<FishData[]>([]);
 
-const addFish = (payload) => {
+const addFish = (payload: FishData) => {
   // fishTankFish.value.push({name: 'Joe', type: 'golden', startX: 600, startY: 50},
   //     {name: 'Bob', type: 'blue', startX: 100, startY: 500},
   //     {name: 'Dessia', type: 'ray', startX: 200, startY: 100},
@@ -44,6 +44,9 @@ const removeFish = (id: string) => {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 html, body {

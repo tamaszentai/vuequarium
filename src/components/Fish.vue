@@ -15,7 +15,15 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, defineEmits} from "vue";
+import {computed, onMounted, ref} from "vue";
+
+const props = defineProps<{
+  name: string
+  type: string
+  startX: number
+  startY: number
+  id: string
+}>();
 
 const y = ref(props.startY);
 const x = ref(props.startX);
@@ -25,13 +33,6 @@ const directionName = ref('');
 const stomach = ref(100);
 const isDead = ref(false);
 
-const props = defineProps<{
-  name: string
-  type: string
-  startX: number
-  startY: number
-  id: string
-}>();
 
 const emit = defineEmits(['remove-fish']);
 
