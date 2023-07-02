@@ -5,7 +5,7 @@
       <div class="name">{{ props.name }}</div>
     </div>
     <div class="wrapper" :style="startDirection" @click="feedFish">
-      <img :src="isDead ? '/src/assets/fishskeleton.png': `/src/assets/${fishType}`" :alt="`${fishType}`"
+      <img :src="isDead ? `${skeleton}`: `${fishType}`" :alt="`${fishType}`"
            :style="flipFish">
     </div>
     <div v-if="!isDead" class="stomach">
@@ -16,6 +16,12 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue";
+import golden from "@/assets/goldfish.png";
+import blue from "@/assets/bluefish.png";
+import ray from "@/assets/mantaray.png";
+import puffer from "@/assets/pufferfish.png";
+import sword from "@/assets/swordfish.png";
+import skeleton from "@/assets/fishskeleton.png";
 
 const props = defineProps<{
   name: string
@@ -59,19 +65,19 @@ const fishType = computed(() => {
   let image = '';
   switch (props.type) {
     case 'golden':
-      image = 'goldfish.png';
+      image = golden;
       break;
     case 'blue':
-      image = 'bluefish.png';
+      image = blue;
       break;
     case 'ray':
-      image = 'mantaray.png';
+      image = ray;
       break;
     case 'puffer':
-      image = 'pufferfish.png';
+      image = puffer;
       break;
     case 'sword':
-      image = 'swordfish.png';
+      image = sword;
       break;
   }
   return image;
