@@ -9,9 +9,11 @@
         </li>
       </ul>
     </div>
-    <input type="text" placeholder="Enter a name for your fish" v-model="fishName"/>
+    <form @submit.prevent="addFish">
+    <input type="text" placeholder="Enter a name for your fish" v-model="fishName" required/>
     <br/>
-    <button @click="addFish">ADD FISH</button>
+    <button type="submit">ADD FISH</button>
+    </form>
   </div>
 
 </template>
@@ -28,6 +30,7 @@ import pufferSelected from "@/assets/pufferfish-glow.png";
 import sword from "@/assets/swordfish.png";
 import swordSelected from "@/assets/swordfish-glow.png";
 import {ref} from "vue";
+import { v4 as uuidv4 } from 'uuid';
 
 
 const emit = defineEmits(['addFish']);
@@ -66,6 +69,7 @@ const addFish = () => {
     name: fishName.value,
     startX: randomX(),
     startY: randomY(),
+    id: uuidv4(),
   }
 
   fishList.value.forEach(fish => {
@@ -129,6 +133,11 @@ input[type=text] {
   background-color: whitesmoke;
   border-radius: 20px;
   font-family: "Times New Roman", serif;
+  text-align: center;
+}
+
+::placeholder {
+  text-align: center;
 }
 
 button {

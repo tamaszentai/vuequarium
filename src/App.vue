@@ -16,6 +16,7 @@ interface FishData {
   type: string,
   startX: number,
   startY: number,
+  id: string,
 }
 
 const fishTankFish = ref<FishData[]>([]);
@@ -31,8 +32,8 @@ const addFish = (payload) => {
   fishTankFish.value.push(payload);
 }
 
-const removeFish = (name: string) => {
-  const index = fishTankFish.value.findIndex(fish => fish.name === name);
+const removeFish = (id: string) => {
+  const index = fishTankFish.value.findIndex(fish => fish.id === id);
   fishTankFish.value.splice(index, 1);
 }
 </script>

@@ -30,6 +30,7 @@ const props = defineProps<{
   type: string
   startX: number
   startY: number
+  id: string
 }>();
 
 const emit = defineEmits(['remove-fish']);
@@ -115,7 +116,7 @@ const swim = () => {
     if (y.value >= 500) {
       y.value = 500;
       setTimeout(() => {
-      emit('remove-fish', props.name);
+      emit('remove-fish', props.id);
       }, 10000)
     }
   }

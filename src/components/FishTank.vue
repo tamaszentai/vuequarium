@@ -1,7 +1,7 @@
 <template>
   <div class="fish-tank" ref="fishTank">
-    <Fish v-for="fish in props.fishTankFish" :key="fish.name" :name="fish.name" :type="fish.type" :start-x="fish.startX"
-          :start-y="fish.startY" @remove-fish="removeFish"/>
+    <Fish v-for="fish in props.fishTankFish" :key="fish.id" :name="fish.name" :type="fish.type" :start-x="fish.startX"
+          :start-y="fish.startY" :id=fish.id @remove-fish="removeFish"/>
   </div>
 </template>
 
