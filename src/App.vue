@@ -1,9 +1,9 @@
 <template>
   <header><h1 class="font-effect-shadow-multiple">VUEquarium</h1></header>
-<main>
-  <FishTank :fish-tank-fish="fishTankFish" @remove-fish="removeFish"/>
-  <FishSelector @add-fish="addFish"/>
-</main>
+  <main>
+    <FishTank :fish-tank-fish="fishTankFish" @remove-fish="removeFish"/>
+    <FishSelector @add-fish="addFish"/>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -22,13 +22,6 @@ interface FishData {
 const fishTankFish = ref<FishData[]>([]);
 
 const addFish = (payload: FishData) => {
-  // fishTankFish.value.push({name: 'Joe', type: 'golden', startX: 600, startY: 50},
-  //     {name: 'Bob', type: 'blue', startX: 100, startY: 500},
-  //     {name: 'Dessia', type: 'ray', startX: 200, startY: 100},
-  //     {name: 'Wayne', type: 'puffer', startX: 300, startY: 200},
-  //     {name: 'Alice', type: 'sword', startX: 400, startY: 300},
-  // );
-
   fishTankFish.value.push(payload);
 }
 
@@ -64,8 +57,9 @@ header {
   font-weight: bold;
   color: black;
   margin: 3rem 0;
-  font-family: "Rancho", serif ;
+  font-family: "Rancho", serif;
 }
+
 main {
   display: flex;
   justify-content: center;

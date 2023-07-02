@@ -117,7 +117,7 @@ const swim = () => {
     if (y.value >= 500) {
       y.value = 500;
       setTimeout(() => {
-      emit('remove-fish', props.id);
+        emit('remove-fish', props.id);
       }, 10000)
     }
   }
@@ -158,7 +158,6 @@ const hunger = () => {
     return
   }
   stomach.value -= 1;
-  console.log(stomach.value)
 }
 
 const feedFish = () => {

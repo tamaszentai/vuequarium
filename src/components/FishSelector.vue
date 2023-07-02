@@ -10,9 +10,9 @@
       </ul>
     </div>
     <form @submit.prevent="addFish">
-    <input type="text" placeholder="Enter a name for your fish" v-model="fishName" required/>
-    <br/>
-    <button type="submit">ADD FISH</button>
+      <input type="text" placeholder="Enter a name for your fish" v-model="fishName" required/>
+      <br/>
+      <button type="submit">ADD FISH</button>
     </form>
   </div>
 
@@ -30,7 +30,7 @@ import pufferSelected from "@/assets/pufferfish-glow.png";
 import sword from "@/assets/swordfish.png";
 import swordSelected from "@/assets/swordfish-glow.png";
 import {ref} from "vue";
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 
 
 const emit = defineEmits(['addFish']);
@@ -78,7 +78,6 @@ const addFish = () => {
 
   fishName.value = '';
 
-  console.log(payload);
   emit('addFish', payload);
 }
 
