@@ -1,16 +1,17 @@
 <template>
   <div class="fish-selector">
-    <h1>Choose a fish</h1>
+    <h1>Choose a fish:</h1>
     <div class="fish-list">
       <ul>
-        <li v-for="fish in fishList" :key="fish.type" @click="selectFish(fish.type)" :class="fish.isSelected ? 'selected' : ''">
-          <img :src="fish.isSelected ? fish.selectedImage :fish.image" :alt="fish.type" />
+        <li v-for="fish in fishList" :key="fish.type" @click="selectFish(fish.type)"
+            :class="fish.isSelected ? 'selected' : ''">
+          <img :src="fish.isSelected ? fish.selectedImage :fish.image" :alt="fish.type"/>
         </li>
       </ul>
     </div>
-    <input type="text" placeholder="Enter a name for this fish" v-model="fishName"/>
-    <br />
-    <button @click="addFish">Add fish</button>
+    <input type="text" placeholder="Enter a name for your fish" v-model="fishName"/>
+    <br/>
+    <button @click="addFish">ADD FISH</button>
   </div>
 
 </template>
@@ -80,43 +81,63 @@ const addFish = () => {
 </script>
 
 
-
 <style scoped>
- .fish-selector {
-   text-align: center;
-   margin-left: 3rem;
-   height: 680px;
-   width: 500px;
-   border: 1px solid black;
- }
+.fish-selector {
+  text-align: center;
+  height: 680px;
+  width: 500px;
+  border: 20px solid goldenrod;
+  background-color: bisque;
+}
 
- h1 {
-    font-family: "Comic Sans MS", cursive, sans-serif;
- }
+h1 {
+  font-family: "Rancho", serif;
+  font-size: 3rem;
+}
 
- .fish-list {
+.fish-list {
 
-   display: flex;
+  display: flex;
 
- }
+}
 
- ul {
-    list-style: none;
- }
+ul {
+  list-style: none;
+}
 
- li {
-   display: inline-block;
-    padding: 1rem;
-   margin: 5px;
- }
+li {
+  display: inline-block;
+  padding: 1rem;
+  margin: 5px;
+}
 
- li:hover {
-   cursor: pointer;
- }
+li:hover {
+  cursor: pointer;
+}
 
 
- img {
-   width: 100px;
-   margin: 1rem;
- }
+img {
+  width: 100px;
+  margin: 1rem;
+}
+
+input[type=text] {
+  width: 80%;
+  margin: 0 0 1rem 0;
+  padding: 1rem;
+  font-size: 1.5rem;
+  background-color: whitesmoke;
+  border-radius: 20px;
+  font-family: "Times New Roman", serif;
+}
+
+button {
+  height: 3rem;
+  width: 6rem;
+  border-radius: 50px;
+  background-color: lightblue;
+  font-weight: bold;
+  font-size: 1rem;
+  font-family: "Rancho", serif;
+}
 </style>

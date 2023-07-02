@@ -78,14 +78,14 @@ const fishType = computed(() => {
 const swim = () => {
   if (!isDead.value) {
     if (directionName.value === 'right') {
-      if (y.value >= 430 || y.value <= 0) {
+      if (y.value >= 410 || y.value <= 0) {
         isY.value = !isY.value;
         randomSpeed = generateRandomNumber();
       }
 
       y.value += isY.value ? 1 : -1;
 
-      if (x.value >= 850 || x.value <= 0) {
+      if (x.value >= 830 || x.value <= 0) {
         isX.value = !isX.value;
         randomSpeed = generateRandomNumber();
       }
@@ -95,14 +95,14 @@ const swim = () => {
 
 
     if (directionName.value === 'left') {
-      if (y.value >= 430 || y.value <= 0) {
+      if (y.value >= 410 || y.value <= 0) {
         isY.value = !isY.value;
         randomSpeed = generateRandomNumber();
       }
 
       y.value -= isY.value ? 1 : -1;
 
-      if (x.value >= 850 || x.value <= 0) {
+      if (x.value >= 830 || x.value <= 0) {
         isX.value = !isX.value;
         randomSpeed = generateRandomNumber();
       }
@@ -112,8 +112,8 @@ const swim = () => {
 
   if (isDead.value) {
     y.value += 1;
-    if (y.value >= 540) {
-      y.value = 540;
+    if (y.value >= 500) {
+      y.value = 500;
       setTimeout(() => {
       emit('remove-fish', props.name);
       }, 10000)

@@ -1,5 +1,5 @@
 <template>
-  <header>VUEquarium</header>
+  <header><h1 class="font-effect-shadow-multiple">VUEquarium</h1></header>
 <main>
   <FishTank :fish-tank-fish="fishTankFish" @remove-fish="removeFish"/>
   <FishSelector @add-fish="addFish"/>
@@ -38,9 +38,32 @@ const removeFish = (name: string) => {
 </script>
 
 
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-color: lightgreen;
+}
+
+</style>
 
 <style scoped>
+
+
+header {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: black;
+  margin: 3rem 0;
+  font-family: "Rancho", serif ;
+}
 main {
   display: flex;
+  justify-content: center;
 }
 </style>
