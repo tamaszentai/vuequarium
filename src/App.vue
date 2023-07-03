@@ -1,15 +1,22 @@
 <template>
+  <div v-if="isAboveResolution">
   <header><h1 class="font-effect-shadow-multiple">VUEquarium</h1></header>
   <main>
     <FishTank :fish-tank-fish="fishTankFish" @remove-fish="removeFish"/>
     <FishSelector @add-fish="addFish"/>
   </main>
+  </div>
+  <div v-else class="warning">
+    <h1>For the optimal experience make sure your resolution is equal to or higher than 1520x860</h1>
+    <button @click="reloadPage">Everything is fine now, reload!
+    </button>
+  </div>
 </template>
 
 <script setup lang="ts">
 import FishTank from "@/components/FishTank.vue";
 import FishSelector from "@/components/FishSelector.vue";
-import {ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 
 interface FishData {
   name: string,
@@ -19,7 +26,21 @@ interface FishData {
   id: string,
 }
 
+const minWidth = 1520;
+const minHeight = 860;
 const fishTankFish = ref<FishData[]>([]);
+const isAboveResolution = ref(false);
+
+const reloadPage = () => {
+  location.reload();
+};
+
+onMounted(() => {
+  isAboveResolution.value =
+      window.innerWidth >= minWidth && window.innerHeight >= minHeight;
+});
+
+
 
 const addFish = (payload: FishData) => {
   fishTankFish.value.push(payload);
@@ -63,5 +84,24 @@ header {
 main {
   display: flex;
   justify-content: center;
+}
+
+.warning {
+  margin-top: 10rem;
+  padding: 0 2rem;
+  text-align: center;
+  font-family: "Rancho", serif;
+}
+
+button {
+  height: auto;
+  width: auto;
+  margin-top: 2rem;
+  padding: 0 1rem;
+  border-radius: 50px;
+  background-color: lightblue;
+  font-size: 2rem;
+  font-family: "Rancho", serif;
+
 }
 </style>
