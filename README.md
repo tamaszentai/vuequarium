@@ -15,7 +15,7 @@ Minimum resolution: 1520x860
 ## Project setup
 ```
 npm install
-npm run serve
+npm run dev
 ```
 
 Deployed on [Firebase](https://vuequarium.web.app/)
